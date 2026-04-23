@@ -61,8 +61,9 @@ class BugHoundAgent:
         self._log("ANALYZE", "Using LLM analyzer.")
         system_prompt = (
             "You are BugHound, a code review assistant. "
-            "Return ONLY valid JSON. No markdown, no backticks."
-            "If you cannot comply, return an empty array []"
+            # "Return ONLY valid JSON. No markdown, no backticks."
+            # # new line below 
+            # "If you cannot comply, return an empty array []"
         )
         user_prompt = (
             "Analyze this Python code for potential issues. "
@@ -96,14 +97,37 @@ class BugHoundAgent:
 
         self._log("ACT", "Using LLM fixer.")
         system_prompt = (
-            "You are BugHound, a careful refactoring assistant. "
-            "Return ONLY the full rewritten Python code. No markdown, no backticks."
+            # "You are BugHound, a careful refactoring assistant. "
+            # "Return ONLY the full rewritten Python code. No markdown, no backticks."
+            """
+                You are BugHound, a cautious refactoring agent.
+                Your task is to fix issues in Python code while minimizing risk.
+                Rules:
+                - Return ONLY the full rewritten Python code.
+                - Do NOT include markdown, explanations, or backticks.
+                - Preserve behavior whenever possible.
+                - Make the smallest changes needed to address the issues.
+                - If an issue is ambiguous, prefer safer, more explicit code.
+            """
         )
         user_prompt = (
-            "Rewrite the code to address the issues listed. "
-            "Preserve behavior when possible. Keep changes minimal.\n\n"
-            f"ISSUES (JSON):\n{json.dumps(issues)}\n\n"
-            f"CODE:\n{code_snippet}"
+            # "Rewrite the code to address the issues listed. "
+            # "Preserve behavior when possible. Keep changes minimal.\n\n"
+            # f"ISSUES (JSON):\n{json.dumps(issues)}\n\n"
+            # f"CODE:\n{code_snippet}"
+            """
+                You are given:
+                1) A list of detected issues (JSON)
+                2) The original Python code
+
+                Rewrite the code to address the issues.
+
+                Issues:
+                {{ISSUES}}
+
+                Original code:
+                {{CODE}}
+            """
         )
 
         # UPDATED: Added exception handling for API errors/rate limits

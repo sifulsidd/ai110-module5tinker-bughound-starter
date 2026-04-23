@@ -50,7 +50,7 @@ def assess_risk(
     # Structural change checks
     # ----------------------------
     if len(fixed_lines) < len(original_lines) * 0.5:
-        score -= 20
+        score -= 10
         reasons.append("Fixed code is much shorter than original.")
 
     if "return" in original_code and "return" not in fixed_code:
