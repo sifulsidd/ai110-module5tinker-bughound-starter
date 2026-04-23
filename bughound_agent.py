@@ -62,6 +62,7 @@ class BugHoundAgent:
         system_prompt = (
             "You are BugHound, a code review assistant. "
             "Return ONLY valid JSON. No markdown, no backticks."
+            "If you cannot comply, return an empty array []"
         )
         user_prompt = (
             "Analyze this Python code for potential issues. "
